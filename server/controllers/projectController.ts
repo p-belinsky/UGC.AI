@@ -208,9 +208,11 @@ export const createVideo = async (req: Request, res: Response) => {
         }
 
         const filename = `${userId}-${Date.now()}.mp4`;
-        const filepath = path.join('videos', filename);
+        const filepath = path.join('/tmp', filename);
 
-        fs.mkdirSync('videos', {recursive: true});
+        if (!fs.existsSync('/tmp')) {
+            fs.mkdirSync('/tmp', {recursive: true});
+        }
 
         if(!operation.response.generatedVideos){
             throw new Error(operation.response.raiMediaFilteredReasons[0])
